@@ -1,74 +1,89 @@
-📚 Book Store REST API
+# 📚 Book Store REST API
 
-A simple RESTful Book Store API built using Node.js and Express.js. This project demonstrates CRUD operations, Express routing, middleware, HTTP status codes, and JSON data handling using an in-memory data store.
+A RESTful Book Store API developed using **Node.js**, **Express.js**, **Drizzle ORM**, and **PostgreSQL** following the **MVC (Model-View-Controller)** architecture. The API provides endpoints to manage books and authors with clean project organization, proper error handling, and PostgreSQL Full-Text Search.
 
-🚀 Features
+---
 
-- View all books
-- Get a book by ID
-- Add a new book
-- Delete a book
-- Input validation
-- Proper HTTP status codes
-- Express Router
-- Middleware support
-- JSON request and response handling
+## 🚀 Features
 
- 🛠️ Tech Stack
+- CRUD Operations for Books
+- CRUD Operations for Authors
+- PostgreSQL Full-Text Search
+- UUID Primary Keys
+- Foreign Key Relationships
+- MVC Architecture
+- RESTful API Design
+- PostgreSQL Integration using Drizzle ORM
+- Request Validation
+- Proper HTTP Status Codes
+- Error Handling
+- JSON Request & Response
 
+---
+
+## 🛠 Tech Stack
+
+### Backend
 - Node.js
 - Express.js
-- JavaScript
-- REST API
-- Thunder Client / Postman
 
- 📂 Project Structure
+### Database
+- PostgreSQL
+
+### ORM
+- Drizzle ORM
+
+### API Testing
+- Postman
+- Thunder Client
+
+### Tools
+- Git
+- GitHub
+- VS Code
+- Docker (PostgreSQL)
+
+---
+
+# 📂 Project Structure
 
 ```
-Book-Store-using-API/
-│── DB/
-│   └── book.js
+Task-Express
 │
-│── middleware/
-│   └── middleware.js
+├── controllers
+│   ├── author.controller.js
+│   └── book.controller.js
 │
-│── routes/
+├── DB
+│   └── index.js
+│
+├── drizzle
+│   ├── migrations
+│   └── meta
+│
+├── middleware
+│
+├── models
+│   ├── author.model.js
+│   └── book.model.js
+│
+├── routes
+│   ├── author.routes.js
 │   └── book.routes.js
 │
-│── app.js
-│── package.json
-│── log.txt
-│── README.md
+├── views
+│
+├── .env
+├── docker-compose.yml
+├── drizzle.config.js
+├── index.js
+├── package.json
+└── README.md
 ```
 
-📌 API Endpoints
+---
 
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | /books | Get all books |
-| GET | /books/:id | Get a book by ID |
-| POST | /books | Create a new book |
-| DELETE | /books/:id | Delete a book |
-
-📥 Sample POST Request
-
-```json
-{
-    "title": "Java Programming",
-    "author": "James Gosling"
-}
-```
-
- 📤 Sample Response
-
-```json
-{
-    "message": "book created success",
-    "id": 3
-}
-```
-
- ▶️ Run Locally
+# ⚙️ Installation
 
 Clone the repository
 
@@ -76,48 +91,245 @@ Clone the repository
 git clone https://github.com/rockstarsiraj/Book-Store-using-API.git
 ```
 
+Navigate to the project
+
+```bash
+cd Book-Store-using-API
+```
+
 Install dependencies
 
 ```bash
 npm install
 ```
+
+Start PostgreSQL using Docker
+
+```bash
+docker compose up -d
+```
+
+Run database migrations
+
+```bash
+npx drizzle-kit migrate
+```
+
 Start the server
 
 ```bash
-node app.js
+npm run dev
 ```
 
-The server will run on:
+or
+
+```bash
+npm start
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create a **.env** file.
+
+```env
+DATABASE_URL=postgres://username:password@localhost:5432/bookstore
+PORT=5000
+```
+
+---
+
+# 📖 API Endpoints
+
+## Authors
+
+### Get All Authors
 
 ```
-http://localhost:8000
+GET /authors
 ```
- 🧪 API Testing
 
-You can test the API using:
+### Get Author By ID
 
-- Postman
-- Thunder Client
+```
+GET /authors/:id
+```
 
- 📖 Concepts Covered
+### Create Author
 
+```
+POST /authors
+```
+
+Request Body
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@example.com"
+}
+```
+
+---
+
+## Books
+
+### Get All Books
+
+```
+GET /books
+```
+
+### Get Book By ID
+
+```
+GET /books/:id
+```
+
+### Create Book
+
+```
+POST /books
+```
+
+Request Body
+
+```json
+{
+  "title": "Node.js Guide",
+  "description": "Learning Express.js",
+  "authorId": "author_uuid"
+}
+```
+
+### Delete Book
+
+```
+DELETE /books/:id
+```
+
+### Search Books
+
+```
+GET /books?search=node
+```
+
+---
+
+# 🗄 Database Schema
+
+## Authors Table
+
+| Column | Type |
+|---------|------|
+| id | UUID |
+| firstName | VARCHAR(55) |
+| lastName | VARCHAR(55) |
+| email | VARCHAR(55) UNIQUE |
+
+---
+
+## Books Table
+
+| Column | Type |
+|---------|------|
+| id | UUID |
+| title | VARCHAR(85) |
+| description | TEXT |
+| authorId | UUID (Foreign Key) |
+
+---
+
+# 🔍 Full-Text Search
+
+Search books by title using PostgreSQL Full-Text Search.
+
+Example:
+
+```
+GET /books?search=node
+```
+
+---
+
+# 🏗 MVC Architecture
+
+### Models
+
+Define database tables and relationships using Drizzle ORM.
+
+### Controllers
+
+Contain business logic and handle incoming requests.
+
+### Routes
+
+Define API endpoints and map requests to controllers.
+
+### Database
+
+Handles PostgreSQL connection and query execution.
+
+### Middleware
+
+Provides reusable request-processing functionality such as validation or authentication (extendable).
+
+---
+
+# 📌 Project Highlights
+
+- MVC Folder Structure
+- PostgreSQL Database
+- Drizzle ORM
+- UUID Primary Keys
+- Foreign Key Relationships
+- PostgreSQL Full-Text Search
 - RESTful APIs
-- CRUD Operations
-- Express.js Routing
-- Middleware
-- HTTP Methods
-- HTTP Status Codes
-- JSON Handling
-- Request Parameters
-- Modular Folder Structure
+- Docker Support
+- Clean Code Organization
+- Error Handling
+- API Testing with Postman & Thunder Client
 
-👨‍💻 Author
+---
+
+# 📸 Sample API Response
+
+```json
+{
+  "id": "2803e14c-d34f-4507-8334-affaa89bc34d",
+  "title": "Learn Node.js",
+  "description": "Node.js runtime environment",
+  "authorId": "1fb1be7e-9fa8-4d5a-a96f-c0698125a1cc"
+}
+```
+
+---
+
+# 🔮 Future Improvements
+
+- Update Book API
+- Update Author API
+- Pagination
+- Sorting & Filtering
+- Authentication (JWT)
+- Authorization
+- Role-Based Access Control
+- Swagger API Documentation
+- Unit Testing
+- Deployment on Render/Railway
+
+---
+
+# 👨‍💻 Author
 
 Siraz Shaik
 
-GitHub: https://github.com/rockstarsiraj
-
-LinkedIn: https://linkedin.com/in/siraz-shaik-25108a28b
+- 📧 sksiraz29@gmail.com
+- 💼 LinkedIn: https://www.linkedin.com/in/siraz-shaik
+- 💻 GitHub: https://github.com/rockstarsiraj
 
 ---
-⭐ If you found this project useful, don't forget to star the repository!
+
+## ⭐ If you found this project helpful, consider giving it a star on GitHub!
